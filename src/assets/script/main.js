@@ -12,3 +12,6 @@ class LoadHandler {
 
 const loadHandler = new LoadHandler();
 loadHandler.init();
+
+console.log('On branch: develop');
+
