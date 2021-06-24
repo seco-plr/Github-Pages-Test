@@ -6,24 +6,17 @@ on:
       - develop
 
 jobs:
-  build:
+  publish-gh-pages:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: 14
       - name: Build
         run: npm run build:dev
-  publish-gh-pages:
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
