@@ -1,0 +1,37 @@
+{
+  "name": "github-pages-test",
+  "version": "1.0.0",
+  "description": "A project to test automatic deployments to Github Pages",
+  "scripts": {
+    "prebuild": "npm install",
+    "prebuild:dev": "npm install",
+    "build:dev": "gulp --dev",
+    "build": "gulp",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist/assets"
+  },
+  "repository": {
+    "type": "git",
+    "url": "seco.github.com:seco-plr/Github-Pages-Test"
+  },
+  "author": "seco-plr",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "7.14",
+    "@babel/preset-env": "7.14",
+    "@babel/register": "7.14",
+    "gulp": "4.0",
+    "gulp-if": "3.0",
+    "gulp-csso": "4.0",
+    "gulp-sass": "4.1",
+    "gulp-sourcemaps": "3.0",
+    "gulp-autoprefixer": "8.0",
+    "del": "6.0",
+    "webpack": "5.40",
+    "minimist": "1.2",
+    "fancy-log": "1.3",
+    "findup-sync": "4.0",
+    "node-sass-tilde-importer": "1.0",
+    "gh-pages": "3.2"
+  }
+}

@@ -1,0 +1,14 @@
+@import 'colors';
+
+
+a {
+  text-decoration: none;
+}
+
+footer {
+  background-color: $gray;
+
+  a {
+    border: 1px solid $lightgray;
+  }
+}
