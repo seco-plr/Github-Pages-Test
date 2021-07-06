@@ -62,7 +62,7 @@ jobs:
           ref: gh-pages
       - name: Extract branch name
         shell: bash
-        run: GithubRef="${{ github.ref }}" && echo "##[set-output name=branch;]$(echo ${GithubRef#refs/heads/})"
+        run: echo "##[set-output name=branch;]$(echo ${{ github.event.ref }})"
         id: extract_branch
       - name: Remove current branch directory
         shell: bash
