@@ -29,9 +29,9 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
-          targer-folder: ${{ steps.extract_branch.outputs.branch }}
+          target-folder: ${{ steps.extract_branch.outputs.branch }}
           branch: gh-pages
-          folder: dist/assets/styleguide
+          folder: dist/assets
           token: ${{ secrets.GITHUB_TOKEN }}
   add-current-branch-to-select:
     if: ${{ github.event_name == 'push' }}
