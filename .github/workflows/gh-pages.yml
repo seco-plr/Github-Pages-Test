@@ -47,7 +47,7 @@ jobs:
           ref: gh-pages
       - name: Update branches list
         shell: bash
-        run: ls -d branches/* > branches.txt || echo -n '' > branches.txt
+        run: ls -d branches/develop branches/feature/* > branches.txt || echo -n '' > branches.txt
       - name: Setup auto-commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
@@ -69,7 +69,7 @@ jobs:
         run: rm -rf branches/${{ steps.extract_branch.outputs.branch }}
       - name: Update branches list
         shell: bash
-        run: ls -d branches/* > branches.txt || echo -n '' > branches.txt
+        run: ls -d branches/develop branches/feature/* > branches.txt || echo -n '' > branches.txt
       - name: Setup auto-commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
