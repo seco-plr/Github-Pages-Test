@@ -46,10 +46,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Update available branches list
-      - name: Add current branch to branch list
+      - name: Update branches list
         shell: bash
-        run: echo ${{ steps.extract_branch.outputs.branch }} >> branches.txt
-      - name: Update list, i.e. sort and remove duplicates
-        shell: bash
-        run: cat branches.txt | uniq | sort > branches.txt
+        run: ls -d branches/* > branches.txt
 
