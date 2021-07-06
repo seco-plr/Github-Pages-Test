@@ -6,6 +6,9 @@ on:
       - develop
       - feature/**
   delete:
+    branches:
+      - develop
+      - feature/**
 
 jobs:
   publish-gh-pages:
@@ -29,7 +32,7 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
-          target-folder: ${{ steps.extract_branch.outputs.branch }}
+          target-folder: branches/${{ steps.extract_branch.outputs.branch }}
           branch: gh-pages
           folder: dist/assets
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -46,10 +49,29 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Update available branches list
-      - name: Add current branch to branch list
+      - name: Update branches list
         shell: bash
-        run: echo ${{ steps.extract_branch.outputs.branch }} >> branches.txt
-      - name: Update list, i.e. sort and remove duplicates
+        run: ls -d branches/* > branches.txt
+  remove-current-branch:
+    if: ${{ github.event_name == 'delete' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+      - name: Setup auto-commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update available branches list
+      - name: Extract branch name
         shell: bash
-        run: cat branches.txt | uniq | sort > branches.txt
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Remove current branch directory
+        shell: bash
+        run: rm -rf branches/${{ steps.extract_branch.outputs.branch }}
+      - name: Update branches list
+        shell: bash
+        run: ls -d branches/* > branches.txt
 
