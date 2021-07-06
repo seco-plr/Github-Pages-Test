@@ -27,7 +27,7 @@ jobs:
         run: npm run build:dev
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        run: GithubRef="${{ github.ref }}" && echo "##[set-output name=branch;]$(echo ${GithubRef#refs/heads/})"
         id: extract_branch
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
@@ -66,7 +66,7 @@ jobs:
           commit_message: Update available branches list
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        run: GithubRef="${{ github.ref }}" && echo "##[set-output name=branch;]$(echo ${GithubRef#refs/heads/})"
         id: extract_branch
       - name: Remove current branch directory
         shell: bash
