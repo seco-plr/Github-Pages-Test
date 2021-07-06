@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - develop
+      - feature/**
+  delete:
 
 jobs:
   publish-gh-pages:
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,11 +18,38 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
+      - name: Install
+        run: npm install
       - name: Build
         run: npm run build:dev
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
+          targer-folder: ${{ steps.extract_branch.outputs.branch }}
           branch: gh-pages
-          folder: dist/assets
+          folder: dist/assets/styleguide
           token: ${{ secrets.GITHUB_TOKEN }}
+  add-current-branch-to-select:
+    if: ${{ github.event_name == 'push' }}
+    needs: publish-gh-pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+      - name: Setup auto-commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update available branches list
+      - name: Add current branch to branch list
+        shell: bash
+        run: echo ${{ steps.extract_branch.outputs.branch }} >> branches.txt
+      - name: Update list, i.e. sort and remove duplicates
+        shell: bash
+        run: $(cat branches.txt | uniq | sort) > branches.txt
+
